@@ -1,0 +1,6 @@
+# 1.0.0 (2021-01-02)
+
+
+### Features
+
+* a base docker image that can be used to build raspberry pi arm64 binaries ([68e3add](https://github.com/rickbassham/ubuntu-raspberry-build/commit/68e3addf809165922efbffee97030f6c84c5c6f3))
