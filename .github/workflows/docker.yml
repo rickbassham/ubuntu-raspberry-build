@@ -1,0 +1,27 @@
+name: Publish Docker image
+on:
+  release:
+    types: [published]
+jobs:
+  push_to_registry:
+    strategy:
+      matrix:
+        os: ["focal", "bionic", "xenial", "groovy"]
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push to Docker Hub
+        run: |
+          docker build --build-arg UBUNTU_VERSION=${{matrix.os}} -t rickbassham/ubuntu-raspberry-build:${{matrix.os}} .
+          docker push rickbassham/ubuntu-raspberry-build:${{matrix.os}}
